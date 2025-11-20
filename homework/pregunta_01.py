@@ -1,18 +1,24 @@
-"""
-Escriba el codigo que ejecute la accion solicitada en cada pregunta.
-"""
-
-# pylint: disable=import-outside-toplevel
+import os
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def pregunta_01():
-    """
-    Siga las instrucciones del video https://youtu.be/qVdwpxG_JpE para
-    generar el archivo `files/plots/news.png`.
+    df = pd.read_csv("files/input/news.csv")
+    x = df.iloc[:, 0]
+    cols = df.columns[1:]
 
-    Un ejemplo de la grafica final esta ubicado en la raíz de
-    este repo.
+    os.makedirs("files/plots", exist_ok=True)
 
-    El gráfico debe salvarse al archivo `files/plots/news.png`.
+    plt.figure(figsize=(8, 5))
+    for c in cols:
+        plt.plot(x, df[c], marker="o", label=c)
 
-    """
+    plt.xlabel("Year")
+    plt.ylabel("Percentage")
+    plt.title("News consumption by medium")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig("files/plots/news.png")
+    plt.close()
+
